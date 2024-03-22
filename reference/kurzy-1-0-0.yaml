@@ -16,6 +16,9 @@ info:
 servers:
   - url: 'https://restdemo.miroslavholec.cz'
     description: Production
+tags:
+  - name: Courses
+    description: Kurzy
 paths:
   '/api/courses/{id}':
     parameters:
@@ -29,7 +32,8 @@ paths:
         description: Unikátní ID kurzu
     get:
       summary: Get Course
-      tags: []
+      tags:
+        - Courses
       responses:
         '200':
           description: OK
@@ -69,7 +73,8 @@ paths:
   /api/courses:
     post:
       summary: Create Course
-      tags: []
+      tags:
+        - Courses
       responses:
         '201':
           description: Created
@@ -89,7 +94,8 @@ paths:
         - $ref: '#/components/parameters/RequestId'
     get:
       summary: Get Courses
-      tags: []
+      tags:
+        - Courses
       responses:
         '200':
           description: OK
@@ -109,6 +115,14 @@ components:
       x-stoplight:
         id: fp9kz0nrxllrp
       type: object
+      x-examples:
+        Standardní kurz:
+          id: 1
+          title: Školení REST API Design
+          price: 9999
+          date: '2019-08-24T14:15:22Z'
+          attendees: 0
+      description: '**Kurz nebo workshop** pro studenty'
       properties:
         id:
           type: integer
@@ -148,14 +162,6 @@ components:
           minimum: 0
           description: Počet účastníků
           maximum: 20
-      x-examples:
-        Standardní kurz:
-          id: 1
-          title: Školení REST API Design
-          price: 9999
-          date: '2019-08-24T14:15:22Z'
-          attendees: 0
-      description: '**Kurz nebo workshop** pro studenty'
     CourseCreate:
       title: CourseCreate
       x-stoplight:
