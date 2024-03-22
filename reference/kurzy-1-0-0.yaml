@@ -108,6 +108,7 @@ paths:
         id: gwqwgorvbf6cd
       parameters:
         - $ref: '#/components/parameters/RequestId'
+    parameters: []
 components:
   schemas:
     Course:
