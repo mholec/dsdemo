@@ -1,0 +1,238 @@
+openapi: 3.0.0
+x-stoplight:
+  id: vspkhl50whrty
+info:
+  title: Kurzy
+  version: '1.0'
+  description: Toto je API **zaměřené** na kurzy
+  contact:
+    name: Miroslav Holec
+    url: 'https://www.miroslavholec.cz'
+    email: mirek@miroslavholec.cz
+  termsOfService: ''
+  license:
+    name: MIT
+    url: 'https://wwww.ahoj.cz'
+servers:
+  - url: 'https://restdemo.miroslavholec.cz'
+    description: Production
+paths:
+  '/api/courses/{id}':
+    parameters:
+      - schema:
+          type: integer
+          format: int32
+          example: 1
+        name: id
+        in: path
+        required: true
+        description: Unikátní ID kurzu
+    get:
+      summary: Get Course
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+              examples:
+                Standard:
+                  value:
+                    id: 1
+                    title: Školení REST API Design
+                    price: 9999
+                    date: '2019-08-24T14:15:22Z'
+                    attendees: 0
+                Full:
+                  value:
+                    id: 999
+                    title: Školení REST API Design
+                    price: 9999
+                    date: '2024-08-24T14:15:22Z'
+                    attendees: 20
+          headers:
+            header-0:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/Problem'
+        '500':
+          $ref: '#/components/responses/Problem'
+      operationId: GetCourse
+      x-stoplight:
+        id: diuat2k6kgeie
+      description: Vrací kurz dle ID
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+  /api/courses:
+    post:
+      summary: Create Course
+      tags: []
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+      operationId: CreateCourse
+      x-stoplight:
+        id: dtub5r7ud5n88
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseCreate'
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+    get:
+      summary: Get Courses
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Courses'
+      operationId: GetCourses
+      x-stoplight:
+        id: gwqwgorvbf6cd
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+components:
+  schemas:
+    Course:
+      title: Course
+      x-stoplight:
+        id: fp9kz0nrxllrp
+      type: object
+      properties:
+        id:
+          type: integer
+          x-stoplight:
+            id: kibjcn421d9yf
+          format: int32
+          example: 1
+          minimum: 0
+          description: Unikátní ID kurzu
+        title:
+          type: string
+          x-stoplight:
+            id: yl6clny14me25
+          example: Školení REST API Design
+          description: Název kurzu
+        price:
+          type: number
+          x-stoplight:
+            id: hddt7aqgh7v1f
+          format: double
+          example: 9999
+          minimum: 0
+          description: Cena bez DPH v CZK
+        date:
+          type: string
+          x-stoplight:
+            id: skxm1rqyvxjjz
+          format: date-time
+          description: Klasický datum dle RFC 3339
+        attendees:
+          type: integer
+          x-stoplight:
+            id: olgz2aze5qn9h
+          format: int32
+          example: 0
+          default: 0
+          minimum: 0
+          description: Počet účastníků
+          maximum: 20
+      x-examples:
+        Standardní kurz:
+          id: 1
+          title: Školení REST API Design
+          price: 9999
+          date: '2019-08-24T14:15:22Z'
+          attendees: 0
+      description: '**Kurz nebo workshop** pro studenty'
+    CourseCreate:
+      title: CourseCreate
+      x-stoplight:
+        id: xas8n12fhyyp9
+      type: object
+      required:
+        - title
+        - date
+        - price
+      properties:
+        title:
+          type: string
+          x-stoplight:
+            id: lf055t3859tu5
+        date:
+          type: string
+          x-stoplight:
+            id: rahgrnx4qh4e1
+          format: date-time
+        price:
+          type: number
+          x-stoplight:
+            id: 2bdj105gu3ko5
+          format: double
+          minimum: 0
+      description: Kurz k vytvoření
+    Courses:
+      title: Courses
+      x-stoplight:
+        id: qwen4kl4mxhd8
+      type: object
+      properties:
+        total:
+          type: integer
+          x-stoplight:
+            id: 2fy4i1za009g7
+          format: int32
+          minimum: 0
+        items:
+          type: array
+          x-stoplight:
+            id: sery738vz0lyu
+          items:
+            $ref: '#/components/schemas/Course'
+    Problem:
+      title: Problem
+      x-stoplight:
+        id: gvyxqsfjms1yu
+      type: object
+      properties:
+        title:
+          type: string
+          x-stoplight:
+            id: gqeeh06y33p7c
+        detail:
+          type: string
+          x-stoplight:
+            id: ax37vb6fdwfzk
+  responses:
+    Problem:
+      description: Obecná chybová odpověď
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Problem'
+      headers:
+        TraceId:
+          schema:
+            type: string
+          description: Trasovací ID chyby
+  parameters:
+    RequestId:
+      name: RequestId
+      in: header
+      required: false
+      schema:
+        type: string
+        format: uuid
+        example: 17f0e670-af0b-4920-b542-6fc5e3444967
+      description: ID požadavku (GUID)
